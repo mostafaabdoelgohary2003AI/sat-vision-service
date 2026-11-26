@@ -9,6 +9,11 @@ prediction log. Dockerized and deploy-ready.
 Built with AI pair-programming (Claude). All numbers below are real outputs of the
 commands shown, not targets.
 
+## Screenshot
+![sat-vision-service UI](results/ui.png)
+
+Real capture of the app running locally: an uploaded satellite tile classified with its top predictions.
+
 ## Dataset
 EuroSAT RGB (Sentinel-2, 64x64 tiles, 10 land-use classes), mirrored at
 huggingface.co/datasets/blanchon/EuroSAT_RGB. The mirror ships a train and a test parquet;
