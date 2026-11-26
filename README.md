@@ -54,3 +54,6 @@ pytest, GitHub Actions CI.
 ## Results
 
 Held-out accuracy: **94.1%** on 2,160 real test tiles (10-class EuroSAT; head-only baseline 83.9%). Per-class recall and full details: RUN-RESULTS.md.
+
+## CI
+The GitHub Actions workflow is stored at `ci/github-actions-ci.yml`. Copy it to `.github/workflows/ci.yml` to enable it.
