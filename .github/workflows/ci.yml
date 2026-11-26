@@ -10,5 +10,5 @@ jobs:
           python-version: "3.11"
       - run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -r requirements.txt
-      - run: python -m src.train
+      - run: python scripts/download_data.py
       - run: pytest -q
