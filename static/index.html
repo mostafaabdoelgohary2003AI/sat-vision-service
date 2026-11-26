@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Sat Vision Service</title>
+<style>
+  body {font-family: -apple-system, "Segoe UI", Arial, sans-serif; background:#e8fafa; margin:0; color:#123c44;}
+  .wrap {max-width: 860px; margin: 40px auto; padding: 0 20px;}
+  h1 {color:#006070; font-size: 1.9rem; margin-bottom: 4px; letter-spacing:-.02em;}
+  .sub {color:#00808c; margin-bottom: 24px;}
+  .kpis {display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px;}
+  .kpi {background:#fff; border:1px solid #cfeeee; border-left:4px solid #00c0c0; border-radius:12px; padding:14px 16px;
+        box-shadow:0 1px 3px rgba(0,96,112,.07);}
+  .kpi b {display:block; color:#006070; font-size:1.35rem;}
+  .kpi span {color:#00808c; font-size:.8rem;}
+  .card {background:#fff; border:1px solid #cfeeee; border-radius:12px; padding:24px;
+         box-shadow:0 1px 3px rgba(0,96,112,.08); margin-bottom:20px;}
+  .drop {border:2px dashed #00c0c0; border-radius:12px; padding:36px; text-align:center; cursor:pointer; color:#006070;}
+  button {background:#006070; color:#fff; border:0; border-radius:8px; padding:10px 22px; font-size:1rem; cursor:pointer;}
+  button:hover {background:#00808c;}
+  table {width:100%; border-collapse:collapse; margin-top:12px;}
+  td, th {text-align:left; padding:8px; border-bottom:1px solid #e0f4f4; color:#123c44;}
+  th {color:#006070;}
+  .bar {height:10px; background:linear-gradient(90deg,#00808c,#00c0c0); border-radius:5px;}
+  img.preview {max-width:180px; border-radius:8px; margin-top:12px; border:1px solid #cfeeee;}
+</style></head><body><div class="wrap">
+<h1>Sat Vision Service</h1>
+<div class="sub">Land-use classification of 64&times;64 satellite tiles - ResNet18 fine-tuned on 8,640 real EuroSAT images</div>
+<div class="kpis">
+  <div class="kpi"><b>94.1%</b><span>held-out accuracy</span></div>
+  <div class="kpi"><b>10,800</b><span>real EuroSAT tiles</span></div>
+  <div class="kpi"><b>10</b><span>land-use classes</span></div>
+  <div class="kpi"><b>ResNet18</b><span>fine-tuned</span></div>
+</div>
+<div class="card">
+  <div class="drop" onclick="document.getElementById('f').click()">
+    <input id="f" type="file" accept="image/*" style="display:none" onchange="show(this)">
+    <b>Choose a satellite image</b> (PNG/JPEG)
+    <div><img id="p" class="preview" style="display:none"></div>
+  </div>
+  <div style="margin-top:14px"><button onclick="go()">Classify</button></div>
+</div>
+<div class="card" id="res" style="display:none">
+  <b>Top predictions</b>
+  <table id="t"></table>
+</div>
+</div>
+<script>
+function show(inp){ const f=inp.files[0]; if(!f) return;
+  const i=document.getElementById('p'); i.src=URL.createObjectURL(f); i.style.display='block'; }
+async function go(){
+  const f=document.getElementById('f').files[0]; if(!f){alert('choose an image');return;}
+  const fd=new FormData(); fd.append('file', f);
+  const r=await fetch('/predict',{method:'POST',body:fd}); const j=await r.json();
+  let h='<tr><th>Class</th><th>Probability</th><th></th></tr>';
+  j.predictions.forEach(p=>{ h+=`<tr><td>${p.class}</td><td>${(p.probability*100).toFixed(1)}%</td>
+    <td><div class="bar" style="width:${Math.max(4,p.probability*220)}px"></div></td></tr>`; });
+  document.getElementById('t').innerHTML=h;
+  document.getElementById('res').style.display='block';
+}
+</script></body></html>

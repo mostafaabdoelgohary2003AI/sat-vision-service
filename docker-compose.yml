@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: satvision
+      POSTGRES_PASSWORD: satvision
+      POSTGRES_DB: satvision
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U satvision"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://satvision:satvision@db:5432/satvision
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+volumes:
+  pgdata:

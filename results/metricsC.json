@@ -1,0 +1,218 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "train_loss": 0.3523,
+      "train_acc": 0.9962,
+      "test_acc": 0.9324,
+      "epoch_seconds": 49.0
+    },
+    {
+      "epoch": 1,
+      "train_loss": 0.3409,
+      "train_acc": 0.9965,
+      "test_acc": 0.9371,
+      "epoch_seconds": 48.3
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.3327,
+      "train_acc": 0.9986,
+      "test_acc": 0.9408,
+      "epoch_seconds": 49.3
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.3268,
+      "train_acc": 0.9986,
+      "test_acc": 0.9426,
+      "epoch_seconds": 48.5
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.3219,
+      "train_acc": 0.9993,
+      "test_acc": 0.9389,
+      "epoch_seconds": 49.3
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.3172,
+      "train_acc": 0.9995,
+      "test_acc": 0.9385,
+      "epoch_seconds": 45.7
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.313,
+      "train_acc": 0.9998,
+      "test_acc": 0.9394,
+      "epoch_seconds": 45.1
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.3109,
+      "train_acc": 0.9999,
+      "test_acc": 0.9412,
+      "epoch_seconds": 45.2
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.3077,
+      "train_acc": 1.0,
+      "test_acc": 0.9412,
+      "epoch_seconds": 46.2
+    }
+  ],
+  "train_images": 8639,
+  "test_images": 2161,
+  "classes": [
+    "AnnualCrop",
+    "Forest",
+    "HerbaceousVegetation",
+    "Highway",
+    "Industrial",
+    "Pasture",
+    "PermanentCrop",
+    "Residential",
+    "River",
+    "SeaLake"
+  ],
+  "phase": "C",
+  "best_acc": 0.9426,
+  "final_test_acc": 0.9412,
+  "per_class_recall": {
+    "AnnualCrop": 0.9545,
+    "Forest": 0.9712,
+    "HerbaceousVegetation": 0.9542,
+    "Highway": 0.8844,
+    "Industrial": 0.9653,
+    "Pasture": 0.913,
+    "PermanentCrop": 0.8873,
+    "Residential": 0.9824,
+    "River": 0.8798,
+    "SeaLake": 0.9915
+  },
+  "confusion_matrix": [
+    [
+      231,
+      1,
+      1,
+      2,
+      0,
+      0,
+      2,
+      0,
+      4,
+      1
+    ],
+    [
+      0,
+      236,
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      3,
+      229,
+      2,
+      0,
+      0,
+      6,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      1,
+      0,
+      176,
+      4,
+      4,
+      4,
+      0,
+      7,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      195,
+      0,
+      0,
+      3,
+      2,
+      0
+    ],
+    [
+      0,
+      1,
+      7,
+      2,
+      0,
+      147,
+      2,
+      0,
+      2,
+      0
+    ],
+    [
+      1,
+      0,
+      6,
+      7,
+      3,
+      1,
+      181,
+      3,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      223,
+      1,
+      0
+    ],
+    [
+      5,
+      2,
+      0,
+      14,
+      0,
+      3,
+      1,
+      0,
+      183,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      233
+    ]
+  ]
+}
