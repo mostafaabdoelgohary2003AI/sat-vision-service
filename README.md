@@ -10,23 +10,23 @@ Built with AI pair-programming (Claude). All numbers below are real outputs of t
 commands shown, not targets.
 
 ## Dataset
-EuroSAT RGB (Sentinel-2, 64x64 tiles, 10 land-use classes). This repo uses the official
-test + validation splits mirrored at huggingface.co/datasets/blanchon/EuroSAT_RGB:
-10,800 real images (8,639 train / 2,161 held-out test, stratified). Download the shards with `python scripts/download_data.py` (mirrored at huggingface.co/datasets/blanchon/EuroSAT_RGB).
+EuroSAT RGB (Sentinel-2, 64x64 tiles, 10 land-use classes), mirrored at
+huggingface.co/datasets/blanchon/EuroSAT_RGB. The mirror ships a train and a test parquet;
+this repo pools the tiles it uses (10,800) and re-splits them itself: a stratified 80/20
+split with a fixed seed, giving 8,639 train / 2,161 held-out tiles. It is not the official
+test split. Download with `python scripts/download_data.py`.
 
-## Real results (held-out, 4 epochs fine-tuning the classifier head of ResNet18, CPU)
-- test accuracy: 83.9% (10-class; chance = 10%)
-- per-class recall: Residential 0.94, AnnualCrop 0.91, SeaLake 0.90, Forest 0.89,
-  Industrial 0.89, Pasture 0.84, HerbaceousVegetation 0.83, River 0.77,
-  PermanentCrop 0.70, Highway 0.67
-- training time: ~52 s/epoch on CPU
-- full history + confusion matrix: results/metrics.json
+## Real results (held-out 2,161 tiles, CPU)
+- final model (three-phase fine-tune of ResNet18): **94.1%** accuracy, 10 classes (chance = 10%)
+- head-only baseline (frozen backbone, 4 epochs): 83.9%
+- weakest classes: Highway 88.4% and River 88.0% recall; strongest SeaLake 99.2%
+- full history and confusion matrices: `results/metricsA.json`, `metricsB.json`, `metricsC.json`; per-class table in RUN-RESULTS.md
 
 ## Run locally (no Docker)
     pip install -r requirements.txt
     python scripts/download_data.py
     python -m src.train            # trains, evaluates, writes results/
-    pytest -q                      # 3 tests
+    pytest -q                      # 3 tests (2 skip when data or weights are absent)
     uvicorn src.api:app --port 8000
     # open http://localhost:8000/ for the upload UI
 
@@ -43,9 +43,12 @@ PostgreSQL (`DATABASE_URL`).
     GET  /health
 
 ## Honest limits
-- Only the classifier head is fine-tuned (frozen backbone) on CPU; unfreezing later layers
-  or more epochs would raise accuracy further. Published EuroSAT results reach ~98% with
-  full fine-tuning - this repo reports what it actually ran.
+- The same 2,161-tile held-out split was used to watch accuracy every epoch, to choose the
+  three-phase recipe (which layers to unfreeze, learning rates, epochs) and to save a "best"
+  checkpoint. There is no separate validation split, so 94.1% is slightly optimistic. The
+  reported figure is the final-epoch model, not the best epoch (94.3%).
+- CPU-only training with a short schedule. Published GPU fine-tunes of ResNet-18 on EuroSAT
+  reach about 97-98% with longer schedules and heavier augmentation.
 - 64x64 tiles are small; production satellite pipelines usually work on larger scenes.
 
 ## Stack
@@ -55,5 +58,5 @@ pytest, GitHub Actions CI.
 
 ## Results
 
-Held-out accuracy: **94.1%** on 2,160 real test tiles (10-class EuroSAT; head-only baseline 83.9%). Per-class recall and full details: RUN-RESULTS.md.
+Held-out accuracy: **94.1%** on 2,161 held-out tiles (10-class EuroSAT; head-only baseline 83.9%). Per-class recall and full details: RUN-RESULTS.md.
 

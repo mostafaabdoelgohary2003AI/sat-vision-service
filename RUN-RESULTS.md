@@ -1,8 +1,8 @@
 # Run Results (real, reproducible)
 
 All numbers from actual training runs on the real EuroSAT RGB dataset
-(10,800 tiles: 8,640 train / 2,160 held-out test, stratified split, fixed seed).
-Hardware: CPU-only. No test-set tuning; the held-out split was never trained on.
+(10,800 tiles: 8,639 train / 2,161 held-out, own stratified 80/20 split with a fixed seed, not the official test split).
+Hardware: CPU-only. The held-out split was never trained on, but it was also the only evaluation set: accuracy was watched on it every epoch and the three-phase recipe was chosen from it, so there is no untouched test set and 94.1% is slightly optimistic.
 
 ## Final: three-phase fine-tuned ResNet18
 - Phase A: classification head only (frozen ImageNet backbone), hflip augmentation -> 90.7%
