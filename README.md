@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" width="128" alt="sat-vision-service logo"></p>
+
 # sat-vision-service
 
 Satellite land-use classification as a deployable service: ResNet18 transfer learning on
